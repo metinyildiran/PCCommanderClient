@@ -27,7 +27,6 @@ fun CommandScreen(
         verticalArrangement = Arrangement.Center
     ) {
 
-
         Button(modifier = Modifier.width(200.dp), onClick = {
             viewModel.sendCommand("\"cmd\", \"/c\", \"start chrome \" + \"https://www.youtube.com/feed/subscriptions\"")
         }) {

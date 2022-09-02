@@ -11,7 +11,7 @@ import javax.inject.Inject
 @HiltViewModel
 class CommandViewModel @Inject constructor(var commandSender: CommandSender) : ViewModel() {
     fun sendCommand(command: String) {
-        viewModelScope.launch(Dispatchers.Default) {
+        viewModelScope.launch(Dispatchers.IO) {
             commandSender.sendCommand(command)
         }
     }
