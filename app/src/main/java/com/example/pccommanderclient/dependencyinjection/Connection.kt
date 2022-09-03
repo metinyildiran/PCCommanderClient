@@ -1,11 +1,14 @@
 package com.example.pccommanderclient.dependencyinjection
 
 import android.os.StrictMode
+import com.example.pccommanderclient.service.CommandAPI
 import com.example.pccommanderclient.util.SentResult
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
+import retrofit2.Retrofit
+import retrofit2.converter.gson.GsonConverterFactory
 import java.io.IOException
 import java.net.Socket
 import java.net.UnknownHostException
@@ -30,5 +33,15 @@ class Connection {
         } catch (io: IOException) {
             SentResult.Error(io.message!!)
         }
+    }
+
+    @Singleton
+    @Provides
+    fun setupRetrofit(): CommandAPI {
+        return Retrofit.Builder()
+            .baseUrl("http://192.168.1.35:1755")
+            .addConverterFactory(GsonConverterFactory.create())
+            .build()
+            .create(CommandAPI::class.java)
     }
 }

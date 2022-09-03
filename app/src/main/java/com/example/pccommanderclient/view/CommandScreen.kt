@@ -13,6 +13,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
+import com.example.pccommanderclient.model.Command
 import com.example.pccommanderclient.viewmodel.CommandViewModel
 
 @Composable
@@ -26,15 +27,15 @@ fun CommandScreen(
         horizontalAlignment = Alignment.CenterHorizontally,
         verticalArrangement = Arrangement.Center
     ) {
-
         Button(modifier = Modifier.width(200.dp), onClick = {
-            viewModel.sendCommand("\"cmd\", \"/c\", \"start chrome \" + \"https://www.youtube.com/feed/subscriptions\"")
+            viewModel.sendCommand(Command("cmd /c start chrome https://www.youtube.com/feed/subscriptions"))
+
         }) {
             Text(text = "Start Youtube")
         }
 
         Button(modifier = Modifier.width(200.dp), onClick = {
-            viewModel.sendCommand("rundll32.exe powrprof.dll, SetSuspendState Sleep")
+            viewModel.sendCommand(Command("rundll32.exe powrprof.dll SetSuspendState Sleep"))
         }) {
             Text(text = "Hibernate")
         }
