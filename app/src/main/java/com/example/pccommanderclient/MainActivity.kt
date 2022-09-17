@@ -1,25 +1,24 @@
 package com.example.pccommanderclient
 
 import android.content.Intent
-import android.net.Uri
 import android.os.Bundle
-import android.os.Parcelable
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.compose.foundation.background
-import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.width
-import androidx.compose.material.Button
-import androidx.compose.material.MaterialTheme
-import androidx.compose.material.Text
+import androidx.compose.foundation.layout.*
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.rounded.PowerSettingsNew
+import androidx.compose.material3.ElevatedButton
+import androidx.compose.material3.Icon
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Text
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.example.pccommanderclient.model.Command
-import com.example.pccommanderclient.ui.theme.PCCommanderClientTheme
+import com.example.pccommanderclient.ui.theme.AppTheme
+import com.example.pccommanderclient.util.Constants.URL_REGEX
 import com.example.pccommanderclient.viewmodel.CommandViewModel
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -28,49 +27,33 @@ class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContent {
-            PCCommanderClientTheme {
+            AppTheme {
                 val viewModel: CommandViewModel = hiltViewModel()
 
                 Column(
                     modifier = Modifier
                         .fillMaxSize()
-                        .background(MaterialTheme.colors.background),
+                        .background(MaterialTheme.colorScheme.background),
                     horizontalAlignment = Alignment.CenterHorizontally,
                     verticalArrangement = Arrangement.Center
                 ) {
-                    Button(modifier = Modifier.width(200.dp), onClick = {
-                        viewModel.sendCommand(Command("cmd /c start chrome https://www.youtube.com/feed/subscriptions"))
-
-                    }) {
-                        Text(text = "Start Youtube")
-                    }
-
-                    Button(modifier = Modifier.width(200.dp), onClick = {
+                    ElevatedButton(modifier = Modifier.width(200.dp), onClick = {
                         viewModel.sendCommand(Command("rundll32.exe powrprof.dll SetSuspendState Sleep"))
                     }) {
-                        Text(text = "Hibernate")
+                        Icon(
+                            imageVector = Icons.Rounded.PowerSettingsNew,
+                            contentDescription = null
+                        )
+                        Text(modifier = Modifier.padding(start = 8.dp), text = "Hibernate")
                     }
 
-                    Button(onClick = { shareData() }) {
+                    ElevatedButton(modifier = Modifier.width(200.dp), onClick = { shareData() }) {
                         Text(text = "Send Text")
                     }
                 }
 
-                when {
-                    intent?.action == Intent.ACTION_SEND -> {
-                        if ("text/plain" == intent.type) {
-                            handleSendText(viewModel, intent)
-                        } else if (intent.type?.startsWith("image/") == true) {
-                            handleSendImage(intent)
-                        }
-                    }
-                    intent?.action == Intent.ACTION_SEND_MULTIPLE
-                            && intent.type?.startsWith("image/") == true -> {
-                        handleSendMultipleImages(intent)
-                    }
-                    else -> {
-                        // Handle other intents, such as being started from the home screen
-                    }
+                if ("text/plain" == intent.type) {
+                    handleSendText(viewModel, intent)
                 }
             }
         }
@@ -78,22 +61,13 @@ class MainActivity : ComponentActivity() {
 
     private fun handleSendText(viewModel: CommandViewModel, intent: Intent) {
         intent.getStringExtra(Intent.EXTRA_TEXT)?.let { incomingText ->
-            viewModel.sendCommand(Command("cmd /c start chrome $incomingText"))
-            finishAffinity()
-        }
-    }
-
-    private fun handleSendImage(intent: Intent) {
-        (intent.getParcelableExtra<Parcelable>(Intent.EXTRA_STREAM) as? Uri)?.let { incomingImage ->
-
-        }
-    }
-
-    private fun handleSendMultipleImages(intent: Intent) {
-        intent.getParcelableArrayListExtra<Parcelable>(Intent.EXTRA_STREAM)
-            ?.let { incomingMultipleImages ->
-
+            if (incomingText.matches(Regex(URL_REGEX))) {
+                viewModel.sendCommand(Command("cmd /c start chrome $incomingText"))
+                finishAffinity()
+            } else {
+                println(incomingText)
             }
+        }
     }
 
     private fun shareData() {
