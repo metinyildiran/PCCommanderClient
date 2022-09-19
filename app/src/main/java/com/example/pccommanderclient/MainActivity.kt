@@ -7,19 +7,19 @@ import androidx.activity.compose.setContent
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.rounded.PlayArrow
 import androidx.compose.material.icons.rounded.PowerSettingsNew
-import androidx.compose.material3.ElevatedButton
-import androidx.compose.material3.Icon
-import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.Text
+import androidx.compose.material.icons.rounded.SkipNext
+import androidx.compose.material.icons.rounded.SkipPrevious
+import androidx.compose.material3.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
-import com.example.pccommanderclient.model.Command
+import com.example.pccommanderclient.model.Request
 import com.example.pccommanderclient.ui.theme.AppTheme
 import com.example.pccommanderclient.util.Constants.URL_REGEX
-import com.example.pccommanderclient.viewmodel.CommandViewModel
+import com.example.pccommanderclient.viewmodel.RequestViewModel
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
@@ -28,7 +28,7 @@ class MainActivity : ComponentActivity() {
         super.onCreate(savedInstanceState)
         setContent {
             AppTheme {
-                val viewModel: CommandViewModel = hiltViewModel()
+                val viewModel: RequestViewModel = hiltViewModel()
 
                 Column(
                     modifier = Modifier
@@ -38,7 +38,7 @@ class MainActivity : ComponentActivity() {
                     verticalArrangement = Arrangement.Center
                 ) {
                     ElevatedButton(modifier = Modifier.width(200.dp), onClick = {
-                        viewModel.sendCommand(Command("rundll32.exe powrprof.dll SetSuspendState Sleep"))
+                        viewModel.sendCommand(Request("rundll32.exe powrprof.dll SetSuspendState Sleep"))
                     }) {
                         Icon(
                             imageVector = Icons.Rounded.PowerSettingsNew,
@@ -52,6 +52,36 @@ class MainActivity : ComponentActivity() {
                     }
                 }
 
+                Box(modifier = Modifier
+                    .fillMaxSize()
+                    .padding(20.dp),
+                    contentAlignment = Alignment.BottomCenter) {
+                    Row(Modifier.padding(10.dp), verticalAlignment = Alignment.CenterVertically) {
+                        FilledIconButton(onClick = {
+                            viewModel.sendMediaKeys(Request("previous"))
+                        }) {
+                            Icon(imageVector = Icons.Rounded.SkipPrevious,
+                                contentDescription = null)
+                        }
+
+                        FilledIconButton(modifier = Modifier
+                            .size(70.dp), onClick = {
+                            viewModel.sendMediaKeys(Request("play/stop"))
+                        }) {
+                            Icon(imageVector = Icons.Rounded.PlayArrow,
+                                contentDescription = null)
+                        }
+
+
+                        FilledIconButton(onClick = {
+                            viewModel.sendMediaKeys(Request("next"))
+                        }) {
+                            Icon(imageVector = Icons.Rounded.SkipNext,
+                                contentDescription = null)
+                        }
+                    }
+                }
+
                 if ("text/plain" == intent.type) {
                     handleSendText(viewModel, intent)
                 }
@@ -59,10 +89,10 @@ class MainActivity : ComponentActivity() {
         }
     }
 
-    private fun handleSendText(viewModel: CommandViewModel, intent: Intent) {
+    private fun handleSendText(viewModel: RequestViewModel, intent: Intent) {
         intent.getStringExtra(Intent.EXTRA_TEXT)?.let { incomingText ->
             if (incomingText.matches(Regex(URL_REGEX))) {
-                viewModel.sendCommand(Command("cmd /c start chrome $incomingText"))
+                viewModel.sendCommand(Request("cmd /c start chrome $incomingText"))
                 finishAffinity()
             } else {
                 println(incomingText)

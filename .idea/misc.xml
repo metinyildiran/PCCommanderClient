@@ -3,6 +3,8 @@
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
       <map>
+        <entry key="..\:/Users/Metin/.gradle/caches/transforms-3/1c5665da17326abc6e8fbac9d69ed892/transformed/appcompat-1.2.0/res/drawable/abc_ratingbar_small_material.xml" value="0.1455" />
+        <entry key="..\:/Users/Metin/.gradle/caches/transforms-3/77905196144277da4e86d9d9106ddf29/transformed/core-1.9.0/res/drawable/notification_bg.xml" value="0.1455" />
         <entry key="..\:/Users/Metin/AndroidStudioProjects/PCCommanderClient/app/src/main/res/drawable-v24/ic_launcher_foreground.xml" value="0.1455" />
         <entry key="..\:/Users/Metin/AndroidStudioProjects/PCCommanderClient/app/src/main/res/drawable/round_terminal_20.xml" value="0.1485" />
         <entry key="..\:/Users/Metin/AndroidStudioProjects/PCCommanderClient/app/src/main/res/drawable/round_terminal_24.xml" value="0.1485" />

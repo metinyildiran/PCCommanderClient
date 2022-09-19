@@ -1,6 +1,6 @@
 package com.example.pccommanderclient.dependencyinjection
 
-import com.example.pccommanderclient.service.CommandAPI
+import com.example.pccommanderclient.service.RequestAPI
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -15,11 +15,11 @@ class Connection {
 
     @Singleton
     @Provides
-    fun setupRetrofit(): CommandAPI {
+    fun setupRetrofit(): RequestAPI {
         return Retrofit.Builder()
             .baseUrl("http://192.168.1.35:1755")
             .addConverterFactory(GsonConverterFactory.create())
             .build()
-            .create(CommandAPI::class.java)
+            .create(RequestAPI::class.java)
     }
 }
