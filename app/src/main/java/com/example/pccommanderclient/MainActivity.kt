@@ -7,10 +7,7 @@ import androidx.activity.compose.setContent
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.rounded.PlayArrow
-import androidx.compose.material.icons.rounded.PowerSettingsNew
-import androidx.compose.material.icons.rounded.SkipNext
-import androidx.compose.material.icons.rounded.SkipPrevious
+import androidx.compose.material.icons.rounded.*
 import androidx.compose.material3.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -46,11 +43,7 @@ class MainActivity : ComponentActivity() {
                         )
                         Text(modifier = Modifier.padding(start = 8.dp), text = "Hibernate")
                     }
-
-                    ElevatedButton(modifier = Modifier.width(200.dp), onClick = { shareData() }) {
-                        Text(text = "Send Text")
-                    }
-                }
+                }  // Hibernate Button
 
                 Box(modifier = Modifier
                     .fillMaxSize()
@@ -80,7 +73,27 @@ class MainActivity : ComponentActivity() {
                                 contentDescription = null)
                         }
                     }
-                }
+                }  // Play/Pause Button
+
+                Box(modifier = Modifier
+                    .fillMaxSize(),
+                    contentAlignment = Alignment.CenterEnd) {
+                    Column {
+                        FilledIconButton(onClick = {
+                            viewModel.sendMediaKeys(Request("volume_up"))
+                        }) {
+                            Icon(modifier = Modifier.size(50.dp),
+                                imageVector = Icons.Rounded.Add,
+                                contentDescription = "Volume up")
+                        }
+
+                        FilledIconButton(onClick = { viewModel.sendMediaKeys(Request("volume_down")) }) {
+                            Icon(modifier = Modifier.size(50.dp),
+                                imageVector = Icons.Rounded.Remove,
+                                contentDescription = "Volume down")
+                        }
+                    }
+                }  // Volume Buttons
 
                 if ("text/plain" == intent.type) {
                     handleSendText(viewModel, intent)
