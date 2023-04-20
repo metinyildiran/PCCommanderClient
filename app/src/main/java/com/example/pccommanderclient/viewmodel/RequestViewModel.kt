@@ -22,6 +22,24 @@ class RequestViewModel @Inject constructor(var requestRepository: RequestReposit
                 is SentResult.Success -> {
                     result.value = "Success"
                 }
+
+                is SentResult.Error -> {
+                    result.value = "Error"
+                }
+            }
+        }
+    }
+
+    fun sendText(request: Request) {
+
+        val result = mutableStateOf("")
+
+        viewModelScope.launch(Dispatchers.IO) {
+            when (requestRepository.sendText(request)) {
+                is SentResult.Success -> {
+                    result.value = "Success"
+                }
+
                 is SentResult.Error -> {
                     result.value = "Error"
                 }
@@ -37,6 +55,7 @@ class RequestViewModel @Inject constructor(var requestRepository: RequestReposit
                 is SentResult.Success -> {
                     result.value = "Success"
                 }
+
                 is SentResult.Error -> {
                     result.value = "Error"
                 }

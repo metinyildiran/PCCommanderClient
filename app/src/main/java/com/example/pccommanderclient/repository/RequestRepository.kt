@@ -18,6 +18,16 @@ class RequestRepository @Inject constructor(private val api: RequestAPI) {
         }
     }
 
+    suspend fun sendText(request: Request): SentResult<Request> {
+        return try {
+            api.sendText(request)
+
+            SentResult.Success(request)
+        } catch (e: Exception) {
+            SentResult.Error(e.message!!)
+        }
+    }
+
     suspend fun sendMediaKeys(request: Request): SentResult<Request> {
         return try {
             api.sendMediaKeys(request)

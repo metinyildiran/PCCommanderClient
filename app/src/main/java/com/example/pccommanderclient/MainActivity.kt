@@ -45,52 +45,66 @@ class MainActivity : ComponentActivity() {
                     }
                 }  // Hibernate Button
 
-                Box(modifier = Modifier
-                    .fillMaxSize()
-                    .padding(20.dp),
-                    contentAlignment = Alignment.BottomCenter) {
+                Box(
+                    modifier = Modifier
+                        .fillMaxSize()
+                        .padding(20.dp),
+                    contentAlignment = Alignment.BottomCenter
+                ) {
                     Row(Modifier.padding(10.dp), verticalAlignment = Alignment.CenterVertically) {
                         FilledIconButton(onClick = {
                             viewModel.sendMediaKeys(Request("previous"))
                         }) {
-                            Icon(imageVector = Icons.Rounded.SkipPrevious,
-                                contentDescription = null)
+                            Icon(
+                                imageVector = Icons.Rounded.SkipPrevious,
+                                contentDescription = null
+                            )
                         }
 
                         FilledIconButton(modifier = Modifier
                             .size(70.dp), onClick = {
                             viewModel.sendMediaKeys(Request("play/stop"))
                         }) {
-                            Icon(imageVector = Icons.Rounded.PlayArrow,
-                                contentDescription = null)
+                            Icon(
+                                imageVector = Icons.Rounded.PlayArrow,
+                                contentDescription = null
+                            )
                         }
 
 
                         FilledIconButton(onClick = {
                             viewModel.sendMediaKeys(Request("next"))
                         }) {
-                            Icon(imageVector = Icons.Rounded.SkipNext,
-                                contentDescription = null)
+                            Icon(
+                                imageVector = Icons.Rounded.SkipNext,
+                                contentDescription = null
+                            )
                         }
                     }
                 }  // Play/Pause Button
 
-                Box(modifier = Modifier
-                    .fillMaxSize(),
-                    contentAlignment = Alignment.CenterEnd) {
+                Box(
+                    modifier = Modifier
+                        .fillMaxSize(),
+                    contentAlignment = Alignment.CenterEnd
+                ) {
                     Column {
                         FilledIconButton(onClick = {
                             viewModel.sendMediaKeys(Request("volume_up"))
                         }) {
-                            Icon(modifier = Modifier.size(50.dp),
+                            Icon(
+                                modifier = Modifier.size(50.dp),
                                 imageVector = Icons.Rounded.Add,
-                                contentDescription = "Volume up")
+                                contentDescription = "Volume up"
+                            )
                         }
 
                         FilledIconButton(onClick = { viewModel.sendMediaKeys(Request("volume_down")) }) {
-                            Icon(modifier = Modifier.size(50.dp),
+                            Icon(
+                                modifier = Modifier.size(50.dp),
                                 imageVector = Icons.Rounded.Remove,
-                                contentDescription = "Volume down")
+                                contentDescription = "Volume down"
+                            )
                         }
                     }
                 }  // Volume Buttons
@@ -108,7 +122,8 @@ class MainActivity : ComponentActivity() {
                 viewModel.sendCommand(Request("cmd /c start chrome $incomingText"))
                 finishAffinity()
             } else {
-                println(incomingText)
+                viewModel.sendText(Request(incomingText))
+                finishAffinity()
             }
         }
     }

@@ -8,6 +8,9 @@ interface RequestAPI {
     @POST("/command")
     suspend fun sendCommand(@Body request: Request)
 
+    @POST("/text")
+    suspend fun sendText(@Body request: Request)
+
     @POST("/media")
     suspend fun sendMediaKeys(@Body request: Request)
 }
