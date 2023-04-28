@@ -89,7 +89,12 @@ class MainActivity : ComponentActivity() {
                             if ((clipboard.primaryClipDescription?.hasMimeType(MIMETYPE_TEXT_PLAIN))!!) {
                                 val clipboardData =
                                     clipboard.primaryClip?.getItemAt(0)?.text.toString()
-                                viewModel.sendText(Request(clipboardData))
+
+                                if (clipboardData.matches(Regex(URL_REGEX))) {
+                                    viewModel.sendCommand(Request("cmd /c start chrome $clipboardData"))
+                                } else {
+                                    viewModel.sendText(Request(clipboardData))
+                                }
                             }
                         } else {
                             Toast.makeText(
