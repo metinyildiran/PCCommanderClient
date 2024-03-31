@@ -1,3 +1,10 @@
 <resources>
     <string name="app_name">PC Commander</string>
+    <string name="hibernate">Hibernate</string>
+    <string name="do_you_really_want_to_hibernate_the_pc">Do you really want to hibernate the PC?</string>
+    <string name="clipboard_is_empty">Clipboard is empty</string>
+    <string name="send_text">Send Text</string>
+    <string name="volume_up">Volume up</string>
+    <string name="volume_down">Volume down</string>
+    <string name="this_is_my_text_to_send">This is my text to send.</string>
 </resources>

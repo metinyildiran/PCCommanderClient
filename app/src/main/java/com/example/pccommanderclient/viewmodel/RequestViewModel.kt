@@ -12,7 +12,8 @@ import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
-class RequestViewModel @Inject constructor(var requestRepository: RequestRepository) : ViewModel() {
+class RequestViewModel @Inject constructor(private var requestRepository: RequestRepository) :
+    ViewModel() {
     fun sendCommand(request: Request) {
 
         val result = mutableStateOf("")
