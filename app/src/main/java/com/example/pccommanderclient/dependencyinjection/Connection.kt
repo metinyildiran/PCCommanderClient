@@ -17,7 +17,7 @@ class Connection {
     @Provides
     fun setupRetrofit(): RequestAPI {
         return Retrofit.Builder()
-            .baseUrl("http://192.168.1.35:1755")
+            .baseUrl("http://192.168.1.39:1755")
             .addConverterFactory(GsonConverterFactory.create())
             .build()
             .create(RequestAPI::class.java)
